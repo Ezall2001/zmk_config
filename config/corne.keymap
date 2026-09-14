@@ -1,0 +1,221 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#include <dt-bindings/zmk/ext_power.h>
+#include <dt-bindings/zmk/rgb.h>
+
+//Row 1: 0  1  2  3  4  5    |  6  7  8  9  10 11
+//Row 2: 12 13 14 15 16 17   |  18 19 20 21 22 23
+//Row 3: 24 25 26 27 28 29   |  30 31 32 33 34 35
+//Thumbs:      36 37 38      |     39 40 41
+
+
+#define QWT1 0
+#define QWT2 1
+#define GMG1 2
+#define GMG2 3
+#define DVK1 4
+#define DVK2 5
+#define MISC 6
+#define ARRW 7
+#define FUNC 8
+#define MCRO 9
+#define SAFE 10
+
+/ {
+	soft_off {
+		hold-time-ms = <2000>;
+	};
+
+	behaviors {
+		el: enable_layer {
+			compatible = "zmk,behavior-toggle-layer";
+			#binding-cells = <1>;
+			display-name = "Enable Layer";
+			toggle-mode = "on";
+			//locking;
+		};
+		dl: disable_layer {
+			compatible = "zmk,behavior-toggle-layer";
+			#binding-cells = <1>;
+			display-name = "Disable Layer";
+			toggle-mode = "off";
+			//locking;
+		};
+	};
+
+	combos {
+		compatible = "zmk,combos";
+	};
+
+	keymap {
+		compatible = "zmk,keymap";
+
+		qwt1 {
+			display-name = "qwt1";
+			bindings = <
+				&lt ARRW TAB	&kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I			&kp O		&kp P			&lt FUNC BSPC
+				&mt LSHFT	ESC	&kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K			&kp L		&kp SEMI	&mt RSHFT SQT
+				&kp LCTRL			&kp Z &kp X &kp C &kp V &kp B &kp N &kp M &kp COMMA &kp DOT	&kp FSLH	&kp RCTRL
+				&kp LGUI &mo QWT2	&mt LALT SPACE &mt RALT RET	&mo QWT2 &kp RGUI
+			>;
+		};
+
+		qwt2 {
+			display-name = "qwt2";
+			bindings = <
+				&kp GRAVE	&kp EXCL &kp MINUS	&kp LPAR	&kp UNDER	&kp AT
+				&kp BSLH 	&kp PLUS &kp RPAR		&kp EQUAL &kp LBRC	&kp BSPC
+
+				&kp HASH &kp N1	&kp N2 &kp N3 &kp N4 &kp N5
+				&kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp CARET
+
+				&kp LCTRL &kp RBRC	&kp SQT		&kp STAR	&kp LBKT &kp RBKT
+				&kp PRCNT	&kp AMPS	&kp PIPE	&kp TILDE &kp DLLR &kp RCTRL
+
+				&trans &mo MISC &trans &trans &mo MISC &trans
+			>;
+		};
+
+		gmg1 {
+			display-name = "gmg1";
+			bindings = <
+				&kp CARET	&kp TAB		&kp Q &kp W &kp E &kp R		&kp Y &kp U &kp I			&kp O		&kp P			&kp BSPC
+				&kp ESC		&kp LSHFT	&kp A &kp S &kp D &kp F		&kp H &kp J &kp K			&kp L		&kp SEMI	&mt RSHFT SQT
+				&mo FUNC	&kp LCTRL	&kp Z &kp X &kp C &kp V		&kp N &kp M &kp COMMA	&kp DOT	&kp FSLH	&kp RCTRL
+				&kp LALT	&mo GMG2	&kp SPACE									&kp RET	&mo GMG2 &kp RGUI
+			>;
+		};
+
+		gmg2 {
+			display-name = "gmg2";
+			bindings = <
+				&kp HASH	&kp PLUS	&kp MINUS &kp STAR	&kp SLASH &kp EQUAL
+				&kp GRAVE	&kp EXCL	&kp LBKT	&kp LPAR	&kp LBRC	&kp AT
+
+				&kp LSHFT	&kp N1		&kp N2		&kp N3		&kp N4		&kp N5
+				&kp BSLH	&kp QMARK	&kp RBKT	&kp RPAR	&kp RBRC	&kp RSHFT
+
+				&kp LCTRL &kp N6		&kp N7		&kp N8		&kp N9		&kp N0
+				&kp PRCNT	&kp AMPS	&kp PIPE	&kp TILDE &kp DLLR	&kp RCTRL
+
+				&trans &mo MISC &trans &trans &mo MISC &trans
+			>;
+		};
+
+		dvk1 {
+			display-name = "dvk1";
+			bindings = <
+				&lt ARRW TAB	&kp SQT		&kp COMMA	&kp DOT &kp P &kp Y &kp F &kp G &kp C &kp R &kp L &lt FUNC BSPC
+				&mt LSHFT	ESC	&kp A			&kp O			&kp E		&kp U &kp I &kp D &kp H &kp T &kp N &kp S &mt RSHFT MINUS
+				&kp LCTRL			&kp SEMI	&kp Q			&kp J		&kp K &kp X &kp B &kp M &kp W &kp V &kp Z &kp RCTRL
+				&kp LGUI &mo DVK2	&mt LALT SPACE &mt RALT RET	&mo DVK2 &kp RGUI
+			>;
+		};
+
+		dvk2 {
+			display-name = "dvk2";
+			bindings = <
+				&kp GRAVE	&kp EXCL	&kp LBKT	&kp LPAR &kp LBRC &kp AT
+				&kp BSLH	&kp RBRC	&kp RPAR	&kp RBKT &kp QMARK &kp BSPC
+
+				&kp HASH	&kp N1	&kp N2 &kp N3 &kp N4	&kp N5
+				&kp N6		&kp N7	&kp N8 &kp N9 &kp N0	&kp CARET
+
+				&kp LCTRL &kp PLUS	&kp MINUS &kp STAR	&kp SLASH &kp EQUAL
+				&kp PRCNT	&kp AMPS	&kp PIPE	&kp TILDE &kp DLLR	&kp RCTRL
+
+				&trans &mo MISC &trans &trans &mo MISC &trans
+			>;
+		};
+
+		misc {
+			display-name = "misc";
+			bindings = <
+				&none	&kp C_BRI_DEC &kp C_VOL_DN	&kp C_PREV		&kp C_RW			&kp C_MUTE
+				&kp C_PP	&kp C_FF			&kp C_NEXT		&kp C_VOL_UP	&kp C_BRI_INC	&none
+
+				&rgb_ug RGB_TOG	&rgb_ug RGB_HUD	&rgb_ug RGB_SAD	&rgb_ug RGB_BRD	&rgb_ug RGB_SPD	&rgb_ug RGB_EFR
+				&rgb_ug RGB_EFF	&rgb_ug RGB_SPI	&rgb_ug RGB_BRI	&rgb_ug RGB_SAI	&rgb_ug RGB_HUI &none
+
+				&el ARRW	&to DVK1	&to QWT1	&to GMG1	&none			&none
+				&el SAFE	&none			&none			&none			&el MCRO	&el FUNC
+
+				&none &trans &none &none	&trans &none
+			>;
+		};
+
+		arrw {
+			display-name = "arrw";
+			bindings = <
+				&trans	&kp LCTRL &kp LSHFT &kp LALT	&kp UP		&none			&none &none		&kp UP		&none			&none &none
+				&none		&none			&none			&kp LEFT	&kp DOWN	&kp RIGHT	&none &kp LEFT &kp DOWN	&kp RIGHT &none &none
+				&none		&none			&none			&none			&none			&none			&none &none		&none			&none			&none &none
+				&none &dl ARRW &kp SPACE &kp RET &dl ARRW &none
+			>;
+		};
+
+		func {
+			display-name = "func";
+			bindings = <
+				&none &kp F1	&kp F2	&kp F3	&kp F4	&kp F5	&kp F6	&kp F7	&kp F8	&kp F9	&kp F10 &trans
+				&none &kp F11 &kp F12 &kp F13 &kp F14 &kp F15 &kp F16 &kp F17 &kp F18 &kp F19 &kp F20 &none
+				&none &kp F21 &kp F22 &kp F23 &kp F24 &none		&none		&none		&none		&none		&none		&none
+				&none &dl FUNC &none &none &dl FUNC &none
+			>;
+		};
+
+		mcro {
+			display-name = "mcro";
+			bindings = <
+				&none	&none &none &none &none &none  &none &none &none &none &none &none
+				&none	&none	&none	&none &none &none  &none &none &none &none &none &none
+				&none	&none	&none	&none	&none &none  &none &none &none &none &none &none
+				&none &dl MCRO &none &none &dl MCRO &none
+			>;
+		};
+
+		safe {
+			display-name = "safe";
+			bindings = <
+				&none				&none							&none			&soft_off	&ext_power EP_OFF &bootloader
+				&bootloader &ext_power EP_OFF	&soft_off &none			&none							&none
+
+				&none				&none							&none						&studio_unlock	&ext_power EP_ON	&sys_reset
+				&sys_reset	&ext_power EP_ON	&studio_unlock	&none						&none							&none
+
+				&out OUT_TOG	&bt BT_SEL 0	&bt BT_SEL 1	&bt BT_SEL 2 &bt BT_SEL 3	&bt BT_SEL 4
+				&bt BT_CLR	&bt BT_DISC 0 &bt BT_DISC 1 &bt BT_DISC 2 &bt BT_DISC 3 &bt BT_DISC 4
+
+				&none	&dl SAFE &none &none &dl SAFE &none
+			>;
+		};
+
+		tst1 {
+			display-name = "tst1";
+			status = "reserved";
+		};
+
+		tst2 {
+			display-name = "tst2";
+			status = "reserved";
+		};
+
+		tst3 {
+			display-name = "tst3";
+			status = "reserved";
+		};
+
+		tst4 {
+			display-name = "tst4";
+			status = "reserved";
+		};
+
+		tst5 {
+			display-name = "tst5";
+			status = "reserved";
+		};
+
+	};
+};

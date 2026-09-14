@@ -1,8 +1,8 @@
 include:
   - board: nice_nano_v2
-    shield: Corne_L nice_oled
+    shield: corne_l nice_oled
     snippet: studio-rpc-usb-uart
-    artifact-name: Corne_left_oled
+    artifact-name: corne_left
   - board: nice_nano_v2
-    shield: Corne_R nice_oled
-    artifact-name: Corne_right_oled
+    shield: corne_r nice_oled
+    artifact-name: corne_right
