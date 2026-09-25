@@ -10,18 +10,22 @@
 //Row 3: 24 25 26 27 28 29   |  30 31 32 33 34 35
 //Thumbs:      36 37 38      |     39 40 41
 
-
+// layers
 #define QWT1 0
 #define QWT2 1
-#define GMG1 2
-#define GMG2 3
-#define DVK1 4
-#define DVK2 5
-#define MISC 6
-#define ARRW 7
-#define FUNC 8
-#define MCRO 9
-#define SAFE 10
+#define QWT3 2
+#define GMG1 3
+#define GMG2 4
+#define DVK1 5
+#define DVK2 6
+#define DVK3 7
+#define MISC 8
+#define ARRW 9
+#define FUNC 10
+#define MCRO 11
+#define SAFE 12
+
+#define NIL 0
 
 / {
 	soft_off {
@@ -29,24 +33,117 @@
 	};
 
 	behaviors {
+
 		el: enable_layer {
 			compatible = "zmk,behavior-toggle-layer";
 			#binding-cells = <1>;
-			display-name = "Enable Layer";
 			toggle-mode = "on";
 			//locking;
 		};
 		dl: disable_layer {
 			compatible = "zmk,behavior-toggle-layer";
 			#binding-cells = <1>;
-			display-name = "Disable Layer";
 			toggle-mode = "off";
 			//locking;
 		};
+
+		ltt: ltt {
+			compatible = "zmk,behavior-hold-tap";
+			#binding-cells = <2>;
+			flavor = "hold-preferred";
+			tapping-term-ms = <200>;
+			quick-tap-ms = <200>;
+			bindings = <&mo>, <&kp>;
+		};
+
+		td_caps_lctrl: td_caps_lctrl {
+			compatible = "zmk,behavior-tap-dance";
+			#binding-cells = <0>;
+			tapping-term-ms = <200>;
+			bindings = <&kp LCTRL>, <&kp CAPS>;
+		};
+
+		mm_arrw: mm_arrw {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&lt ARRW TAB>, <&el ARRW>;
+			mods = <(MOD_LSFT|MOD_RSFT)>;
+		};
+		mm_func: mm_func {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&ltt FUNC BSPC>, <&el FUNC>;
+			mods = <(MOD_LSFT|MOD_RSFT)>;
+		};
+
+		mm_el_qwt2: mm_el_qwt2 {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&mo QWT2>, <&el QWT2>;
+			mods = <(MOD_LSFT|MOD_RSFT)>;
+		};
+		mm_qwt2: mm_qwt2 {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&mm_el_qwt2>, <&el MISC>;
+			mods = <(MOD_LGUI)>;
+		};
+
+		mm_el_qwt3: mm_el_qwt3 {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&mo QWT3>, <&el QWT3>;
+			mods = <(MOD_LSFT|MOD_RSFT)>;
+		};
+		mm_qwt3: mm_qwt3 {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&mm_el_qwt3>, <&el MISC>;
+			mods = <(MOD_RGUI)>;
+		};
+
+		mm_el_dvk2: mm_el_dvk2 {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&mo DVK2>, <&el DVK2>;
+			mods = <(MOD_LSFT|MOD_RSFT)>;
+		};
+		mm_dvk2: mm_dvk2 {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&mm_el_dvk2>, <&el MISC>;
+			mods = <(MOD_LGUI)>;
+		};
+
+		mm_el_dvk3: mm_el_dvk3 {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&mo DVK3>, <&el DVK3>;
+			mods = <(MOD_LSFT|MOD_RSFT)>;
+		};
+		mm_dvk3: mm_dvk3 {
+			compatible = "zmk,behavior-mod-morph";
+			#binding-cells = <0>;
+			bindings = <&mm_el_dvk3>, <&el MISC>;
+			mods = <(MOD_RGUI)>;
+		};
+
 	};
 
 	combos {
 		compatible = "zmk,combos";
+	};
+
+	macros {
+		m_email: email {
+			compatible = "zmk,behavior-macro";
+			#binding-cells = <0>;
+			tap-ms = <10>;
+			wait-ms = <10>;
+			bindings = <&kp A &kp O &kp M &kp D &kp L &kp E &kp N &kp A &kp V &kp G &kp O &kp E &kp D
+				&kp AT &kp U &kp M &kp A &kp G &kp P &kp E &kp I &kp S &kp M
+			>;
+		};
 	};
 
 	keymap {
@@ -55,10 +152,10 @@
 		qwt1 {
 			display-name = "qwt1";
 			bindings = <
-				&lt ARRW TAB	&kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I			&kp O		&kp P			&lt FUNC BSPC
-				&mt LSHFT	ESC	&kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K			&kp L		&kp SEMI	&mt RSHFT SQT
-				&kp LCTRL			&kp Z &kp X &kp C &kp V &kp B &kp N &kp M &kp COMMA &kp DOT	&kp FSLH	&kp RCTRL
-				&kp LGUI &mo QWT2	&mt LALT SPACE &mt RALT RET	&mo QWT2 &kp RGUI
+				&mm_arrw				&kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I			&kp O		&kp P			&mm_func
+				&mt LSHFT	ESC		&kp A &kp S &kp D &kp F &kp G &kp H &kp J &kp K			&kp L		&kp SEMI	&mt RSHFT SQT
+				&td_caps_lctrl	&kp Z &kp X &kp C &kp V &kp B &kp N &kp M &kp COMMA &kp DOT	&kp FSLH	&kp RCTRL
+				&kp LGUI &mm_qwt2 &mt LALT SPACE &mt RALT RET &mm_qwt3 &kp RGUI
 			>;
 		};
 
@@ -66,15 +163,31 @@
 			display-name = "qwt2";
 			bindings = <
 				&kp GRAVE	&kp EXCL &kp MINUS	&kp LPAR	&kp UNDER	&kp AT
-				&kp BSLH 	&kp PLUS &kp RPAR		&kp EQUAL &kp LBRC	&kp BSPC
+				&kp BSLH 	&kp PLUS &kp RPAR		&kp EQUAL &kp LBRC	&trans
 
 				&kp HASH &kp N1	&kp N2 &kp N3 &kp N4 &kp N5
 				&kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp CARET
 
-				&kp LCTRL &kp RBRC	&kp SQT		&kp STAR	&kp LBKT &kp RBKT
-				&kp PRCNT	&kp AMPS	&kp PIPE	&kp TILDE &kp DLLR &kp RCTRL
+				&trans		&kp RBRC	&kp SQT		&kp STAR	&kp LBKT &kp RBKT
+				&kp PRCNT	&kp AMPS	&kp PIPE	&kp TILDE &kp DLLR &trans
 
-				&trans &mo MISC &trans &trans &mo MISC &trans
+				&trans &dl QWT2 &trans &trans &mo MISC &trans
+			>;
+		};
+
+		qwt3 {
+			display-name = "qwt3";
+			bindings = <
+				&trans			&kp LA(N1)	&kp LA(N2) &kp LA(N3) &kp LA(N4) &kp LA(N5)
+				&kp LA(N6)	&kp LA(N7)	&kp LA(N8) &kp LA(N9) &kp LA(N0) &trans
+
+				&trans			&kp LS(N1)	&kp LS(N2) &kp LS(N3) &kp LS(N4) &kp LS(N5)
+				&kp LS(N6)	&kp LS(N7)	&kp LS(N8) &kp LS(N9) &kp LS(N0) &trans
+
+				&trans			&kp LC(N1)	&kp LC(N2) &kp LC(N3) &kp LC(N4) &kp LC(N5)
+				&kp LC(N6)	&kp LC(N7)	&kp LC(N8) &kp LC(N9) &kp LC(N0) &trans
+
+				&trans &mo MISC &trans &trans &dl QWT3 &trans
 			>;
 		};
 
@@ -107,10 +220,10 @@
 		dvk1 {
 			display-name = "dvk1";
 			bindings = <
-				&lt ARRW TAB	&kp SQT		&kp COMMA	&kp DOT &kp P &kp Y &kp F &kp G &kp C &kp R &kp L &lt FUNC BSPC
-				&mt LSHFT	ESC	&kp A			&kp O			&kp E		&kp U &kp I &kp D &kp H &kp T &kp N &kp S &mt RSHFT MINUS
-				&kp LCTRL			&kp SEMI	&kp Q			&kp J		&kp K &kp X &kp B &kp M &kp W &kp V &kp Z &kp RCTRL
-				&kp LGUI &mo DVK2	&mt LALT SPACE &mt RALT RET	&mo DVK2 &kp RGUI
+				&mm_arrw				&kp SQT		&kp COMMA	&kp DOT &kp P &kp Y &kp F &kp G &kp C &kp R &kp L &mm_func
+				&mt LSHFT	ESC		&kp A			&kp O			&kp E		&kp U &kp I &kp D &kp H &kp T &kp N &kp S &mt RSHFT MINUS
+				&td_caps_lctrl	&kp SEMI	&kp Q			&kp J		&kp K &kp X &kp B &kp M &kp W &kp V &kp Z &kp RCTRL
+				&kp LGUI &mm_dvk2	&mt LALT SPACE &mt RALT RET	&mm_dvk3 &kp RGUI
 			>;
 		};
 
@@ -118,15 +231,31 @@
 			display-name = "dvk2";
 			bindings = <
 				&kp GRAVE	&kp EXCL	&kp LBKT	&kp LPAR &kp LBRC &kp AT
-				&kp BSLH	&kp RBRC	&kp RPAR	&kp RBKT &kp QMARK &kp BSPC
+				&kp BSLH	&kp RBRC	&kp RPAR	&kp RBKT &kp QMARK &trans
 
 				&kp HASH	&kp N1	&kp N2 &kp N3 &kp N4	&kp N5
 				&kp N6		&kp N7	&kp N8 &kp N9 &kp N0	&kp CARET
 
-				&kp LCTRL &kp PLUS	&kp MINUS &kp STAR	&kp SLASH &kp EQUAL
-				&kp PRCNT	&kp AMPS	&kp PIPE	&kp TILDE &kp DLLR	&kp RCTRL
+				&trans		&kp PLUS	&kp MINUS &kp STAR	&kp SLASH &kp EQUAL
+				&kp PRCNT	&kp AMPS	&kp PIPE	&kp TILDE &kp DLLR	&trans
 
-				&trans &mo MISC &trans &trans &mo MISC &trans
+				&trans &dl DVK2 &trans &trans &mo MISC &trans
+			>;
+		};
+
+		dvk3 {
+			display-name = "dvk3";
+			bindings = <
+				&trans			&kp LA(N1)	&kp LA(N2) &kp LA(N3) &kp LA(N4) &kp LA(N5)
+				&kp LA(N6)	&kp LA(N7)	&kp LA(N8) &kp LA(N9) &kp LA(N0) &trans
+
+				&trans			&kp LS(N1)	&kp LS(N2) &kp LS(N3) &kp LS(N4) &kp LS(N5)
+				&kp LS(N6)	&kp LS(N7)	&kp LS(N8) &kp LS(N9) &kp LS(N0) &trans
+
+				&trans			&kp LC(N1)	&kp LC(N2) &kp LC(N3) &kp LC(N4) &kp LC(N5)
+				&kp LC(N6)	&kp LC(N7)	&kp LC(N8) &kp LC(N9) &kp LC(N0) &trans
+
+				&trans &mo MISC &trans &trans &dl DVK3 &trans
 			>;
 		};
 
@@ -139,20 +268,20 @@
 				&rgb_ug RGB_TOG	&rgb_ug RGB_HUD	&rgb_ug RGB_SAD	&rgb_ug RGB_BRD	&rgb_ug RGB_SPD	&rgb_ug RGB_EFR
 				&rgb_ug RGB_EFF	&rgb_ug RGB_SPI	&rgb_ug RGB_BRI	&rgb_ug RGB_SAI	&rgb_ug RGB_HUI &none
 
-				&el ARRW	&to DVK1	&to QWT1	&to GMG1	&none			&none
-				&el SAFE	&none			&none			&none			&el MCRO	&el FUNC
+				&el MCRO	&to QWT1	&to GMG1	&to DVK1	&none	&none
+				&el SAFE	&none			&none			&none			&none	&none
 
-				&none &trans &none &none	&trans &none
+				&none &dl MISC &none &none	&dl MISC &none
 			>;
 		};
 
 		arrw {
 			display-name = "arrw";
 			bindings = <
-				&trans	&kp LCTRL &kp LSHFT &kp LALT	&kp UP		&none			&none &none		&kp UP		&none			&none &none
-				&none		&none			&none			&kp LEFT	&kp DOWN	&kp RIGHT	&none &kp LEFT &kp DOWN	&kp RIGHT &none &none
-				&none		&none			&none			&none			&none			&none			&none &none		&none			&none			&none &none
-				&none &dl ARRW &kp SPACE &kp RET &dl ARRW &none
+				&trans	&kp LS(UP)		&kp LS(LEFT) &kp UP			&kp LS(RIGHT)	&kp LC(UP)		&kp LS(UP)		&kp LS(LEFT) &kp UP			&kp LS(RIGHT)	&kp LC(UP)		&trans
+				&trans	&kp LS(DOWN)	&kp LEFT		 &kp DOWN		&kp RIGHT			&kp LC(DOWN)	&kp LS(DOWN)	&kp LEFT		 &kp DOWN		&kp RIGHT			&kp LC(DOWN)	&trans
+				&trans	&none					&kp LC(LEFT) &kp LSHFT	&kp LC(RIGHT)	&none					&none					&kp LC(LEFT) &kp RSHFT	&kp LC(RIGHT)	&none					&trans
+				&trans	&dl ARRW	&trans																									&trans &dl ARRW &trans
 			>;
 		};
 
@@ -169,9 +298,9 @@
 		mcro {
 			display-name = "mcro";
 			bindings = <
-				&none	&none &none &none &none &none  &none &none &none &none &none &none
-				&none	&none	&none	&none &none &none  &none &none &none &none &none &none
-				&none	&none	&none	&none	&none &none  &none &none &none &none &none &none
+				&m_email	&none &none &none &none &none  &none &none &none &none &none &none
+				&none			&none	&none	&none &none &none  &none &none &none &none &none &none
+				&none			&none	&none	&none	&none &none  &none &none &none &none &none &none
 				&none &dl MCRO &none &none &dl MCRO &none
 			>;
 		};
@@ -179,8 +308,8 @@
 		safe {
 			display-name = "safe";
 			bindings = <
-				&none				&none							&none			&soft_off	&ext_power EP_OFF &bootloader
-				&bootloader &ext_power EP_OFF	&soft_off &none			&none							&none
+				&none				&none							&none	&none	&ext_power EP_OFF &bootloader
+				&bootloader &ext_power EP_OFF	&none	&none	&none							&none
 
 				&none				&none							&none						&studio_unlock	&ext_power EP_ON	&sys_reset
 				&sys_reset	&ext_power EP_ON	&studio_unlock	&none						&none							&none
